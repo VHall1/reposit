@@ -16,9 +16,16 @@ describe("calculateRentPerTenant", () => {
     );
   });
 
-  test("calculates monthly rent per tenant", () => {
+  test("calculates monthly rent per tenant in pence", () => {
     const rent = calculateRentPerTenant(properties, tenants, "p_1002");
     expect(rent).toEqual(794_00);
+  });
+
+  test("calculates monthly rent per tenant in pounds", () => {
+    const rent = calculateRentPerTenant(properties, tenants, "p_1002", {
+      unit: "pounds",
+    });
+    expect(rent).toBeCloseTo(794.0, 2);
   });
 
   test("throws an error property doesn't exist", () => {

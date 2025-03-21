@@ -3,7 +3,8 @@ import type { Property, Tenant } from "../types";
 export function calculateRentPerTenant(
   properties: Property[],
   tenants: Tenant[],
-  propertyId: Property["id"]
+  propertyId: Property["id"],
+  options: { unit?: "pence" | "pounds" } = {}
 ): number {
   const property = properties.find((p) => p.id === propertyId);
   if (!property) throw new Error(`property not found: ${propertyId}`);
@@ -13,5 +14,13 @@ export function calculateRentPerTenant(
     throw new Error(`no tenants found for property: ${propertyId}`);
   }
 
-  return Math.floor(Number(property.monthlyRentPence) / filteredTenants.length);
+  const rentPerTenant = Math.floor(
+    Number(property.monthlyRentPence) / filteredTenants.length
+  );
+
+  if (options.unit === "pounds") {
+    return rentPerTenant / 100.0;
+  }
+
+  return rentPerTenant;
 }
