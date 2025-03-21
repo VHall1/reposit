@@ -17,19 +17,11 @@ export async function calculateRentPerTenant(
         })
         .on("end", () => resolve(tenants));
     }),
-    new Promise<number>((resolve) => {
-      const propertiesStream = fs
-        .createReadStream(
-          "data/technical-challenge-properties-september-2024.csv"
-        )
-        .pipe(parse({ columns: true }))
-        .on("data", (row) => {
-          if (row.id === propertyId) {
-            propertiesStream.destroy();
-            resolve(Number(row.monthlyRentPence));
-          }
-        });
-    }),
+    (async () => {
+      const property = await findProperty(propertyId);
+      // @ts-expect-error TODO: check if property actually exists
+      return Number(property.monthlyRentPence);
+    })(),
   ]);
 
   if (tenants === 0) {
@@ -66,4 +58,25 @@ export function validatePostcode(postcode: string): boolean {
   }
 
   return true;
+}
+
+// Helpers
+
+async function findProperty(id: string) {
+  return new Promise((resolve) => {
+    const propertiesStream = fs
+      .createReadStream(
+        "data/technical-challenge-properties-september-2024.csv"
+      )
+      .pipe(parse({ columns: true }))
+      .on("data", (row) => {
+        if (row.id === id) {
+          propertiesStream.destroy();
+          resolve(row);
+        }
+      })
+      .on("end", () => {
+        resolve(undefined);
+      });
+  });
 }
