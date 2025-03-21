@@ -1,6 +1,6 @@
 import type { Property } from "../types";
 
-export function calculateAverageRent(
+export function calculateRegionAverageRent(
   properties: Property[],
   region: string
 ): number {
@@ -10,8 +10,12 @@ export function calculateAverageRent(
   for (const property of properties) {
     if (property.region === region) {
       regionFilteredProperties++;
-      regionRentSum = regionRentSum + Number(property.monthlyRentPence);
+      regionRentSum += Number(property.monthlyRentPence);
     }
+  }
+
+  if (regionFilteredProperties === 0) {
+    throw new Error(`no properties found for region: ${region}`);
   }
 
   return Math.floor(regionRentSum / regionFilteredProperties);

@@ -1,12 +1,24 @@
 import { readFromCSV } from "../csv";
-import { calculateAverageRent } from "./average-rent";
+import { calculateRegionAverageRent } from "./average-rent";
 
 import type { Property } from "../types";
 
-test("calculates average rent of an area", async () => {
-  const properties = await readFromCSV<Property>(
-    "data/technical-challenge-properties-september-2024.csv"
-  );
+describe("calculateRegionAverageRent", () => {
+  let properties: Property[] = [];
 
-  expect(calculateAverageRent(properties, "ENGLAND")).toEqual(1669_28);
+  beforeAll(async () => {
+    properties = await readFromCSV<Property>(
+      "data/technical-challenge-properties-september-2024.csv"
+    );
+  });
+
+  test("calculates average rent of a given area", async () => {
+    expect(calculateRegionAverageRent(properties, "ENGLAND")).toEqual(1669_28);
+  });
+
+  test("throws an error if a given region has no properties", async () => {
+    expect(() => calculateRegionAverageRent(properties, "FAKE REGION")).toThrow(
+      /no properties found/i
+    );
+  });
 });
