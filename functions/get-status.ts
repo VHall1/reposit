@@ -12,12 +12,9 @@ export function getPropertyStatus(
   propertyId: Property["id"]
 ): PropertyStatus {
   const property = properties.find((p) => p.id === propertyId);
-  if (!property) {
-    throw new Error("property not found");
-  }
+  if (!property) throw new Error(`property not found: ${propertyId}`);
 
   const filteredTenants = tenants.filter((t) => t.propertyId === propertyId);
-
   if (filteredTenants.length === 0) {
     return "PROPERTY_VACANT";
   }
