@@ -1,8 +1,6 @@
 import type { Property } from "../types";
 
-export async function validatePostcodes(
-  properties: Property[]
-): Promise<string[]> {
+export function validatePostcodes(properties: Property[]): string[] {
   const invalid = [];
 
   for (const property of properties) {
