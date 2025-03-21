@@ -36,32 +36,6 @@ export async function calculateRentPerTenant(
   return rentInPence;
 }
 
-export function validatePostcode(postcode: string): boolean {
-  const parts = postcode.split(" ");
-
-  // should have exactly 2 parts separated by a space character
-  if (parts.length !== 2) {
-    return false;
-  }
-
-  const [outward, inward] = parts;
-
-  // all formats end with 9AA
-  const inwardRegex = /^[0-9][A-Z]{2}$/;
-  if (!inwardRegex.test(inward)) {
-    return false;
-  }
-
-  const outwardRegex = /^[A-Z]{1,2}[0-9]{1,2}[A-Z]?$/;
-  if (!outwardRegex.test(outward)) {
-    return false;
-  }
-
-  return true;
-}
-
-// Helpers
-
 async function findProperty(id: string) {
   return new Promise((resolve) => {
     const propertiesStream = fs
