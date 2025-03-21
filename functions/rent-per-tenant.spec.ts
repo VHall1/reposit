@@ -21,6 +21,12 @@ describe("calculateRentPerTenant", () => {
     expect(rent).toEqual(794_00);
   });
 
+  test("throws an error property doesn't exist", () => {
+    expect(() => calculateRentPerTenant(properties, tenants, "p_9999")).toThrow(
+      /property not found/i
+    );
+  });
+
   test("throws an error if no tenants are found", () => {
     expect(() => calculateRentPerTenant(properties, tenants, "p_1029")).toThrow(
       /no tenants found/i
