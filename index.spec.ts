@@ -1,4 +1,4 @@
-import { calculateRentPerTenant } from "./index";
+import { calculateRentPerTenant, validatePostcode } from "./index";
 
 describe("calculateRentPerTenant", () => {
   describe("it calculates rent per tenant", () => {
@@ -19,5 +19,15 @@ describe("calculateRentPerTenant", () => {
     expect(() => calculateRentPerTenant("p_1029")).rejects.toThrow(
       /no tenants/i
     );
+  });
+});
+
+describe("validatePostcode", () => {
+  test("it handles valid postcode", () => {
+    expect(validatePostcode("CR2 6XH")).toBe(true);
+  });
+
+  test("it handles invalid postcode", () => {
+    expect(validatePostcode("M60 1W")).toBe(false);
   });
 });
