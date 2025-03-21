@@ -32,6 +32,10 @@ export async function calculateRentPerTenant(
     }),
   ]);
 
+  if (tenants === 0) {
+    throw new Error("no tenants");
+  }
+
   const rentInPence = Math.floor(rent / tenants);
   if (options?.currencyUnit === "major") {
     return rentInPence / 100.0;
