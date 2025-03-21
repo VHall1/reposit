@@ -1,7 +1,10 @@
 import { parse } from "csv-parse";
 import * as fs from "fs";
 
-export async function calculateRentPerTenant(propertyId: string) {
+export async function calculateRentPerTenant(
+  propertyId: string,
+  options?: { currencyUnit: "minor" | "major" }
+) {
   const [tenants, rent] = await Promise.all([
     new Promise<number>((resolve) => {
       let tenants = 0;
@@ -29,5 +32,10 @@ export async function calculateRentPerTenant(propertyId: string) {
     }),
   ]);
 
-  return Math.floor(rent / tenants);
+  const rentInPence = Math.floor(rent / tenants);
+  if (options?.currencyUnit === "major") {
+    return rentInPence / 100.0;
+  }
+
+  return rentInPence;
 }
