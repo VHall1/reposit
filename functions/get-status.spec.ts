@@ -3,24 +3,25 @@ import { getPropertyStatus, PropertyStatus } from "./get-status";
 
 import type { Property, Tenant } from "../types";
 
-test("gets the 'status' of a property", async () => {
-  const [properties, tenants] = await Promise.all([
-    readFromCSV<Property>(
-      "data/technical-challenge-properties-september-2024.csv"
-    ),
-    readFromCSV<Tenant>("data/technical-challenge-tenants-september-2024.csv"),
-  ]);
+describe("getPropertyStatus", () => {
+  let properties: Property[];
+  let tenants: Tenant[];
 
-  expect(getPropertyStatus(properties, tenants, "p_1002")).toBe<PropertyStatus>(
-    "PROPERTY_OVERDUE"
-  );
-  expect(getPropertyStatus(properties, tenants, "p_1003")).toBe<PropertyStatus>(
-    "PARTIALLY_VACANT"
-  );
-  expect(getPropertyStatus(properties, tenants, "p_1029")).toBe<PropertyStatus>(
-    "PROPERTY_VACANT"
-  );
-  expect(getPropertyStatus(properties, tenants, "p_1004")).toBe<PropertyStatus>(
-    "PROPERTY_ACTIVE"
-  );
+  beforeAll(async () => {
+    properties = await readFromCSV<Property>(
+      "data/technical-challenge-properties-september-2024.csv"
+    );
+    tenants = await readFromCSV<Tenant>(
+      "data/technical-challenge-tenants-september-2024.csv"
+    );
+  });
+
+  test.each<{ desc: string; id: string; expected: PropertyStatus }>([
+    { desc: "overdue", id: "p_1002", expected: "PROPERTY_OVERDUE" },
+    { desc: "partiall vacant", id: "p_1003", expected: "PARTIALLY_VACANT" },
+    { desc: "vacant", id: "p_1029", expected: "PROPERTY_VACANT" },
+    { desc: "active", id: "p_1004", expected: "PROPERTY_ACTIVE" },
+  ])("handles $desc property", ({ id, expected }) => {
+    expect(getPropertyStatus(properties, tenants, id)).toBe(expected);
+  });
 });
