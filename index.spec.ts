@@ -23,11 +23,18 @@ describe("calculateRentPerTenant", () => {
 });
 
 describe("validatePostcode", () => {
-  test("it handles valid postcode", () => {
-    expect(validatePostcode("CR2 6XH")).toBe(true);
+  test.each([
+    { desc: "AA9 9AA", postcode: "CR2 6XH" },
+    { desc: "AA99 9AA", postcode: "DN55 1PT" },
+    { desc: "A9 9AA", postcode: "M1 1AE" },
+    { desc: "A99 9AA", postcode: "B33 8TH" },
+    { desc: "A9A 9AA", postcode: "W1A 0AX" },
+    { desc: "AA9A 9AA", postcode: "EC1A 1BB" },
+  ])("handles $desc postcode format", ({ postcode }) => {
+    expect(validatePostcode(postcode)).toBe(true);
   });
 
-  test("it handles invalid postcode", () => {
+  test("handles invalid postcode", () => {
     expect(validatePostcode("M60 1W")).toBe(false);
   });
 });
