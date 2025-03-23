@@ -23,12 +23,12 @@ export function isPostcodeValid(postcode: string): boolean {
   const [outward, inward] = parts;
 
   // all formats end with 9AA
-  const inwardRegex = /^[0-9][A-Z]{2}$/;
+  const inwardRegex = /^[0-9][A-Z]{2}$/i;
   if (!inwardRegex.test(inward)) {
     return false;
   }
 
-  const outwardRegex = /^[A-Z]{1,2}[0-9]{1,2}[A-Z]?$/;
+  const outwardRegex = /^[A-Z]{1,2}[0-9]{1,2}[A-Z]?$/i;
   if (!outwardRegex.test(outward)) {
     return false;
   }

@@ -30,6 +30,10 @@ describe("isPostcodeValid", () => {
     expect(isPostcodeValid(postcode)).toBe(true);
   });
 
+  test("handles valid postcode with mixed casing", () => {
+    expect(isPostcodeValid("ec1a 1BB")).toBe(true);
+  });
+
   test("handles invalid postcode", () => {
     expect(isPostcodeValid("M60 1W")).toBe(false);
   });
