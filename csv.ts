@@ -7,7 +7,7 @@ import * as fs from "fs";
 export function readFromCSV<T = unknown>(path: string): Promise<Array<T>> {
   return new Promise<Array<T>>((resolve, reject) => {
     if (!fs.existsSync(path)) {
-      reject(new Error("bad CSV path"));
+      reject(new Error(`bad CSV path: ${path}`));
       return;
     }
 
