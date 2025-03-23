@@ -13,7 +13,7 @@ export function readFromCSV<T = unknown>(path: string): Promise<Array<T>> {
 
     const data: Array<T> = [];
     fs.createReadStream(path)
-      .pipe(parse({ columns: true }))
+      .pipe(parse({ columns: true, cast: true }))
       .on("data", (row) => {
         // TODO: validate against given type?
         data.push(row);

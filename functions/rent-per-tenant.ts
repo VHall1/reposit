@@ -15,7 +15,7 @@ export function calculateRentPerTenant(
   }
 
   const rentPerTenant = Math.floor(
-    Number(property.monthlyRentPence) / filteredTenants.length
+    property.monthlyRentPence / filteredTenants.length
   );
 
   if (options.unit === "pounds") {

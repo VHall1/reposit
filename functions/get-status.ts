@@ -23,7 +23,7 @@ export function getPropertyStatus(
     return "PROPERTY_OVERDUE";
   }
 
-  if (Number(property.capacity) > filteredTenants.length) {
+  if (property.capacity > filteredTenants.length) {
     return "PARTIALLY_VACANT";
   }
 

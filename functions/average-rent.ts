@@ -10,7 +10,7 @@ export function calculateRegionAverageRent(
   for (const property of properties) {
     if (property.region === region) {
       regionFilteredProperties++;
-      regionRentSum += Number(property.monthlyRentPence);
+      regionRentSum += property.monthlyRentPence;
     }
   }
 

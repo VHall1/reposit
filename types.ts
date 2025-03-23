@@ -1,12 +1,10 @@
-// TODO: convert to proper types (i.e. number and dates)
-
 export interface Property {
   id: string;
   address: string;
   postcode: string;
-  monthlyRentPence: string;
+  monthlyRentPence: number;
   region: string;
-  capacity: string;
+  capacity: number;
   tenancyEndDate: string;
 }
 
