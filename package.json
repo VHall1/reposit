@@ -1,8 +1,7 @@
 {
   "name": "reposit",
   "scripts": {
-    "test": "jest",
-    "test:verbose": "jest --verbose"
+    "test": "jest --verbose"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
