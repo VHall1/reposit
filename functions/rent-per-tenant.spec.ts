@@ -8,12 +8,14 @@ describe("calculateRentPerTenant", () => {
   let tenants: Tenant[];
 
   beforeAll(async () => {
-    properties = await readFromCSV<Property>(
-      "data/technical-challenge-properties-september-2024.csv"
-    );
-    tenants = await readFromCSV<Tenant>(
-      "data/technical-challenge-tenants-september-2024.csv"
-    );
+    [properties, tenants] = await Promise.all([
+      readFromCSV<Property>(
+        "data/technical-challenge-properties-september-2024.csv"
+      ),
+      readFromCSV<Tenant>(
+        "data/technical-challenge-tenants-september-2024.csv"
+      ),
+    ]);
   });
 
   test("calculates monthly rent per tenant in pence", () => {
