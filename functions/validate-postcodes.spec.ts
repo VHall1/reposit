@@ -14,9 +14,7 @@ describe("validatePostcodes", () => {
 
   test("lists properties with invalid postcodes", () => {
     const invalid = validatePostcodes(properties);
-    expect(invalid).toEqual(
-      expect.arrayContaining(["p_1025", "p_1080", "p_1100"])
-    );
+    expect(invalid).toEqual(["p_1025", "p_1080", "p_1100"]);
   });
 });
 
