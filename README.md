@@ -13,6 +13,12 @@ it is used only in the tests. This ensures that the core functions remain agnost
 
 ## Trade-offs
 
+- **Money Calculations**: As rent values are provided in pence rather than pounds, this simplifies calculations and avoids precision issues with floating-point arithmetic.
+  Since fractional pennies are unlikely to be relevant, the current implementation floors any returned values derived from rent calculations.
+
+- **Postcode Validation**: The regex used to validate postcodes currently only checks if it follows the general validation rules, but does not check if the postcode actually exists,
+  as this would require a more complex regex pattern, which would be hard to test and maintain.
+
 - **Reading CSV files**: For simplicity, the helper function reads the entire CSV file and returns its contents as an array. This method is sufficient for the small sample files provided.
   However, for real-world data with hundreds of thousands of rows, alternative approaches like batching or streaming may be necessary to improve performance.
 
@@ -21,6 +27,3 @@ it is used only in the tests. This ensures that the core functions remain agnost
 
 - **Dependency Injection**: Currently, functions receive data as arrays passed as parameters. While this works well for one-off functions,
   a more scalable solution might involve implementing a class that reads data from a storage service, which can then be injected into the functions as needed.
-
-- **Money Calculations**: As rent values are provided in pence rather than pounds, this simplifies calculations and avoids precision issues with floating-point arithmetic.
-  Since fractional pennies are unlikely to be relevant, the current implementation floors any returned values derived from rent calculations.
