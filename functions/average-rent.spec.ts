@@ -1,5 +1,5 @@
 import { InMemoryPropertyStore, type PropertyStore } from "../store";
-import type { Property } from "../types";
+import { PropertySchema } from "../types";
 import { readFromCSV } from "../util/csv";
 import { calculateRegionAverageRent } from "./average-rent";
 
@@ -7,8 +7,9 @@ describe("calculateRegionAverageRent", () => {
   let propertyStore: PropertyStore;
 
   beforeAll(async () => {
-    const properties = await readFromCSV<Property>(
-      "data/technical-challenge-properties-september-2024.csv"
+    const properties = await readFromCSV(
+      "data/technical-challenge-properties-september-2024.csv",
+      PropertySchema
     );
     propertyStore = new InMemoryPropertyStore(properties);
   });

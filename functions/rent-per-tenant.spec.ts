@@ -4,7 +4,7 @@ import {
   type PropertyStore,
   type TenantStore,
 } from "../store";
-import type { Property, Tenant } from "../types";
+import { PropertySchema, TenantSchema } from "../types";
 import { readFromCSV } from "../util/csv";
 import { calculateRentPerTenant } from "./rent-per-tenant";
 
@@ -14,11 +14,13 @@ describe("calculateRentPerTenant", () => {
 
   beforeAll(async () => {
     const [properties, tenants] = await Promise.all([
-      readFromCSV<Property>(
-        "data/technical-challenge-properties-september-2024.csv"
+      readFromCSV(
+        "data/technical-challenge-properties-september-2024.csv",
+        PropertySchema
       ),
-      readFromCSV<Tenant>(
-        "data/technical-challenge-tenants-september-2024.csv"
+      readFromCSV(
+        "data/technical-challenge-tenants-september-2024.csv",
+        TenantSchema
       ),
     ]);
 
