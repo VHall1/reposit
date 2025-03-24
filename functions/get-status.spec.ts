@@ -1,14 +1,19 @@
 import { readFromCSV } from "../csv";
+import {
+  InMemoryPropertyStore,
+  InMemoryTenantStore,
+  type PropertyStore,
+  type TenantStore,
+} from "../store";
+import type { Property, Tenant } from "../types";
 import { getPropertyStatus, PropertyStatus } from "./get-status";
 
-import type { Property, Tenant } from "../types";
-
 describe("getPropertyStatus", () => {
-  let properties: Property[];
-  let tenants: Tenant[];
+  let propertyStore: PropertyStore;
+  let tenantStore: TenantStore;
 
   beforeAll(async () => {
-    [properties, tenants] = await Promise.all([
+    const [properties, tenants] = await Promise.all([
       readFromCSV<Property>(
         "data/technical-challenge-properties-september-2024.csv"
       ),
@@ -16,6 +21,9 @@ describe("getPropertyStatus", () => {
         "data/technical-challenge-tenants-september-2024.csv"
       ),
     ]);
+
+    propertyStore = new InMemoryPropertyStore(properties);
+    tenantStore = new InMemoryTenantStore(tenants);
   });
 
   test.each<{ desc: string; id: string; expected: PropertyStatus }>([
@@ -24,7 +32,7 @@ describe("getPropertyStatus", () => {
     { desc: "vacant", id: "p_1029", expected: "PROPERTY_VACANT" },
     { desc: "active", id: "p_1004", expected: "PROPERTY_ACTIVE" },
   ])("handles $desc property", ({ id, expected }) => {
-    expect(getPropertyStatus(properties, tenants, id)).toBe(expected);
+    expect(getPropertyStatus(propertyStore, tenantStore, id)).toBe(expected);
   });
 
   test("doesn't show property as overdue on the last day of tenancy", () => {
@@ -43,7 +51,8 @@ describe("getPropertyStatus", () => {
       tenancyEndDate: "2025-03-24",
     };
 
-    const status = getPropertyStatus([property], tenants, "p_1004");
+    const propertyStore = new InMemoryPropertyStore([property]);
+    const status = getPropertyStatus(propertyStore, tenantStore, "p_1004");
 
     expect(status).toBe<PropertyStatus>("PROPERTY_ACTIVE");
 
