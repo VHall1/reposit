@@ -1,4 +1,3 @@
-import { readFromCSV } from "../csv";
 import {
   InMemoryPropertyStore,
   InMemoryTenantStore,
@@ -6,6 +5,7 @@ import {
   type TenantStore,
 } from "../store";
 import type { Property, Tenant } from "../types";
+import { readFromCSV } from "../util/csv";
 import { getPropertyStatus, PropertyStatus } from "./get-status";
 
 describe("getPropertyStatus", () => {

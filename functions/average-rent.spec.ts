@@ -1,6 +1,6 @@
-import { readFromCSV } from "../csv";
 import { InMemoryPropertyStore, type PropertyStore } from "../store";
 import type { Property } from "../types";
+import { readFromCSV } from "../util/csv";
 import { calculateRegionAverageRent } from "./average-rent";
 
 describe("calculateRegionAverageRent", () => {
