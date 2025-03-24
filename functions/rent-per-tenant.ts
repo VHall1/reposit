@@ -1,10 +1,14 @@
 import type { Property, Tenant } from "../types";
 
+type RentUnit = "pence" | "pounds";
+
+const penceToPounds = (pence: number) => pence / 100.0;
+
 export function calculateRentPerTenant(
   properties: Property[],
   tenants: Tenant[],
   propertyId: Property["id"],
-  options: { unit?: "pence" | "pounds" } = {}
+  options: { unit?: RentUnit } = {}
 ): number {
   const property = properties.find((p) => p.id === propertyId);
   if (!property) throw new Error(`property not found: ${propertyId}`);
@@ -19,7 +23,7 @@ export function calculateRentPerTenant(
   );
 
   if (options.unit === "pounds") {
-    return rentPerTenant / 100.0;
+    return penceToPounds(rentPerTenant);
   }
 
   return rentPerTenant;
