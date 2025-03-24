@@ -12,14 +12,22 @@ export function getPropertyStatus(
   propertyId: Property["id"]
 ): PropertyStatus {
   const property = properties.find((p) => p.id === propertyId);
-  if (!property) throw new Error(`property not found: ${propertyId}`);
+  if (!property) {
+    throw new Error(`property not found: ${propertyId}`);
+  }
 
   const filteredTenants = tenants.filter((t) => t.propertyId === propertyId);
   if (filteredTenants.length === 0) {
     return "PROPERTY_VACANT";
   }
 
-  if (new Date() > new Date(property.tenancyEndDate)) {
+  const today = new Date();
+  // resetting time, so the last day of the tenancy doesn't show up as overdue
+  today.setHours(0, 0, 0, 0);
+
+  const tenancyEndDate = new Date(property.tenancyEndDate);
+
+  if (today > tenancyEndDate) {
     return "PROPERTY_OVERDUE";
   }
 

@@ -26,4 +26,28 @@ describe("getPropertyStatus", () => {
   ])("handles $desc property", ({ id, expected }) => {
     expect(getPropertyStatus(properties, tenants, id)).toBe(expected);
   });
+
+  test("doesn't show property as overdue on the last day of tenancy", () => {
+    jest.useFakeTimers();
+
+    const mockDate = new Date(2025, 2, 24, 10, 31);
+    jest.setSystemTime(mockDate);
+
+    const property: Property = {
+      id: "p_1004",
+      address: "124 Maple Crescent",
+      postcode: "EH96 9EF",
+      monthlyRentPence: 212500,
+      region: "WALES",
+      capacity: 1,
+      tenancyEndDate: "2025-03-24",
+    };
+
+    const status = getPropertyStatus([property], tenants, "p_1004");
+
+    expect(status).toBe<PropertyStatus>("PROPERTY_ACTIVE");
+
+    // restore real timers after test!
+    jest.useRealTimers();
+  });
 });
