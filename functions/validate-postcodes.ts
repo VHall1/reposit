@@ -1,6 +1,6 @@
 import type { Property } from "../types";
 
-export function validatePostcodes(properties: Property[]): string[] {
+export const validatePostcodes = (properties: Property[]): string[] => {
   const invalid = [];
 
   for (const property of properties) {
@@ -10,9 +10,13 @@ export function validatePostcodes(properties: Property[]): string[] {
   }
 
   return invalid;
-}
+};
 
-export function isPostcodeValid(postcode: string): boolean {
+// regex patterns for UK postcodes
+const INWARD_REGEX = /^[0-9][A-Z]{2}$/i; // e.g. "9AA"
+const OUTWARD_REGEX = /^[A-Z]{1,2}[0-9]{1,2}[A-Z]?$/i; // e.g. "SW1A", "M1", "B33"
+
+export const isPostcodeValid = (postcode: string): boolean => {
   const parts = postcode.split(" ");
 
   // should have exactly 2 parts separated by a space character
@@ -22,16 +26,13 @@ export function isPostcodeValid(postcode: string): boolean {
 
   const [outward, inward] = parts;
 
-  // all formats end with 9AA
-  const inwardRegex = /^[0-9][A-Z]{2}$/i;
-  if (!inwardRegex.test(inward)) {
+  if (!INWARD_REGEX.test(inward)) {
     return false;
   }
 
-  const outwardRegex = /^[A-Z]{1,2}[0-9]{1,2}[A-Z]?$/i;
-  if (!outwardRegex.test(outward)) {
+  if (!OUTWARD_REGEX.test(outward)) {
     return false;
   }
 
   return true;
-}
+};
