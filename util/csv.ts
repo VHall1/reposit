@@ -11,12 +11,11 @@ export async function readFromCSV<T = unknown>(
   }
 
   const records: Array<T> = [];
-  const parser = fs
-    .createReadStream(path)
-    .pipe(parse({ columns: true, cast: true }));
 
-  // reference: https://csv.js.org/parse/examples/async_iterator/
-  for await (const record of parser) {
+  const content = fs.readFileSync(path);
+  const parsed = parse(content, { columns: true, cast: true });
+
+  for await (const record of parsed) {
     if (schema) {
       const result = schema.safeParse(record);
       if (!result.success) {

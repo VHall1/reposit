@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
+import { z } from "zod";
 import { readFromCSV } from "./csv";
 
 describe("readFromCSV", () => {
@@ -16,7 +17,7 @@ Alice,30
 Bob,25
 `;
 
-    const filePath = path.join(tempDir, "sample.csv");
+    const filePath = path.join(tempDir, "valid.csv");
     fs.writeFileSync(filePath, csvContent);
 
     const result = await readFromCSV<{ name: string; age: number }>(filePath);
@@ -37,5 +38,21 @@ Bob,25
   test("throws an error when the CSV file does not exist", async () => {
     const fakePath = path.join(tempDir, "non-existent.csv");
     await expect(readFromCSV(fakePath)).rejects.toThrow(/bad CSV path/i);
+  });
+
+  test("throws an error when zod validation fails", async () => {
+    const csvContent = `name,age
+Alice,30
+Bob,25
+`;
+
+    const filePath = path.join(tempDir, "invalid.csv");
+    fs.writeFileSync(filePath, csvContent);
+
+    const schema = z.object({ name: z.string(), age: z.string() });
+
+    await expect(readFromCSV(filePath, schema)).rejects.toThrow(
+      /validation failed/i
+    );
   });
 });
