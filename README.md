@@ -7,17 +7,17 @@
 
 ## Project Structure
 
-| Folder        | Description                                                                                                |
-| ------------- | ---------------------------------------------------------------------------------------------------------- |
-| **data**      | Sample CSV data provided.                                                                                  |
-| **functions** | Actual logic implementing the challenge requirements. Each function has an associated test file.           |
-| **store**     | Access data, exports both the store interface and concrete implementations, used for dependency injection. |
-| **util**      | Utility functions used across the project, namely where the CSV handling implementation is kept.           |
+| Folder        | Description                                                                                                     |
+| ------------- | --------------------------------------------------------------------------------------------------------------- |
+| **data**      | Contains sample CSV data.                                                                                       |
+| **functions** | Implements the challenge requirements. Each function has an associated test file.                               |
+| **store**     | Manages data access and exports both the store interface and concrete implementations for dependency injection. |
+| **util**      | Houses utility functions used across the project, including CSV handling.                                       |
 
 ## Getting Started
 
-As mentioned in the challenge guidelines, no user interface or API have been implemented for the functions in `functions/`,
-however, every function has been tested with jest. You may run the following command to run those tests:
+As noted in the challenge guidelines, there is no user interface or API for the functions in the functions/ folder.
+However, every function is covered by tests using jest. To run the tests, execute:
 
 ```bash
 npm run test
@@ -39,3 +39,7 @@ npm t
 
 - **Reading CSV files**: For simplicity, the helper function reads the entire CSV file and returns its contents as an array. This method is sufficient for the small sample files provided.
   However, for real-world data with hundreds of thousands of rows, alternative approaches like batching or streaming may be necessary to improve performance.
+
+- **Database Integration (e.g., SQLite)**: For better optimization and scalability, a database like SQLite could be used to dump all the CSV data. This would enable the use of more efficient, indexed queries and reduce memory overhead,
+  especially for large datasets. SQLite would provide better query optimization for filtering, sorting, and aggregating data compared to working directly with large arrays in memory.
+  This approach would be a good consideration if the dataset grows significantly in the future.
