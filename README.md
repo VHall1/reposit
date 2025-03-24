@@ -39,6 +39,3 @@ npm t
 
 - **Reading CSV files**: For simplicity, the helper function reads the entire CSV file and returns its contents as an array. This method is sufficient for the small sample files provided.
   However, for real-world data with hundreds of thousands of rows, alternative approaches like batching or streaming may be necessary to improve performance.
-
-- **CSV Validation**: The current implementation assumes that the CSV data conforms to the types declared in `types.ts`.
-  In a production environment, additional validation would be required to handle user-provided data reliably.
