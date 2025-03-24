@@ -7,6 +7,7 @@ export function calculateRegionAverageRent(
   let regionRentSum = 0;
   let regionFilteredProperties = 0;
 
+  // could have used a filter and a reduce here, but that would require two loops
   for (const property of properties) {
     if (property.region === region) {
       regionFilteredProperties++;
