@@ -1,19 +1,21 @@
-import { readFromCSV } from "../csv";
+import { InMemoryPropertyStore, type PropertyStore } from "../store";
+import { PropertySchema } from "../types";
+import { readFromCSV } from "../util/csv";
 import { isPostcodeValid, validatePostcodes } from "./validate-postcodes";
 
-import type { Property } from "../types";
-
 describe("validatePostcodes", () => {
-  let properties: Property[];
+  let propertyStore: PropertyStore;
 
   beforeAll(async () => {
-    properties = await readFromCSV<Property>(
-      "data/technical-challenge-properties-september-2024.csv"
+    const properties = await readFromCSV(
+      "data/technical-challenge-properties-september-2024.csv",
+      PropertySchema
     );
+    propertyStore = new InMemoryPropertyStore(properties);
   });
 
   test("lists properties with invalid postcodes", () => {
-    const invalid = validatePostcodes(properties);
+    const invalid = validatePostcodes(propertyStore);
     expect(invalid).toEqual(["p_1025", "p_1080", "p_1100"]);
   });
 });

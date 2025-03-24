@@ -1,6 +1,7 @@
-import type { Property } from "../types";
+import type { PropertyStore } from "../store";
 
-export const validatePostcodes = (properties: Property[]): string[] => {
+export const validatePostcodes = (propertyStore: PropertyStore): string[] => {
+  const properties = propertyStore.all();
   const invalid = [];
 
   for (const property of properties) {

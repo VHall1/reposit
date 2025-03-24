@@ -1,19 +1,22 @@
-import type { Property, Tenant } from "../types";
+import type { PropertyStore, TenantStore } from "../store";
+import type { Property } from "../types";
 
 type RentUnit = "pence" | "pounds";
 
 const penceToPounds = (pence: number) => pence / 100.0;
 
 export function calculateRentPerTenant(
-  properties: Property[],
-  tenants: Tenant[],
+  propertyStore: PropertyStore,
+  tenantStore: TenantStore,
   propertyId: Property["id"],
   options: { unit?: RentUnit } = {}
 ): number {
-  const property = properties.find((p) => p.id === propertyId);
-  if (!property) throw new Error(`property not found: ${propertyId}`);
+  const property = propertyStore.findById(propertyId);
+  if (!property) {
+    throw new Error(`property not found: ${propertyId}`);
+  }
 
-  const filteredTenants = tenants.filter((t) => t.propertyId === propertyId);
+  const filteredTenants = tenantStore.getByPropertyId(propertyId);
   if (filteredTenants.length === 0) {
     throw new Error(`no tenants found for property: ${propertyId}`);
   }
