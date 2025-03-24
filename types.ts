@@ -7,7 +7,7 @@ export const PropertySchema = z.object({
   monthlyRentPence: z.number().int(),
   region: z.string(),
   capacity: z.number().int(),
-  tenancyEndDate: z.string(),
+  tenancyEndDate: z.string().date(),
 });
 
 export type Property = z.infer<typeof PropertySchema>;
