@@ -1,5 +1,9 @@
 # Reposit Take-home Challenge
 
+A [quick video](https://drive.google.com/file/d/1li2vmml4Zc4WIkP9bETrm2RjxpS6HCNZ/view?usp=sharing)
+is also available, going through the general project structure and talking
+a bit more about the trade-offs listed bellow.
+
 ## Requirements
 
 - Node.js: v20 or later
