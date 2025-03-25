@@ -14,13 +14,13 @@ describe("calculateRegionAverageRent", () => {
     propertyStore = new InMemoryPropertyStore(properties);
   });
 
-  test("calculates average rent of a given area", async () => {
+  test("calculates average rent of a given area", () => {
     expect(calculateRegionAverageRent(propertyStore, "ENGLAND")).toEqual(
       1669_28
     );
   });
 
-  test("throws an error if a given region has no properties", async () => {
+  test("throws an error if a given region has no properties", () => {
     expect(() =>
       calculateRegionAverageRent(propertyStore, "FAKE REGION")
     ).toThrow(/no properties found/i);
